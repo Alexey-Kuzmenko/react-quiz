@@ -1,11 +1,15 @@
 import React, { Component } from "react";
 import classes from "./Quiz.module.scss"
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
-
+import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
 
 class Quiz extends Component {
     state = {
         activeQuestion: 0,
+        // isFinished: false,
+        // ! testing
+        isFinished: true,
+        answerSate: null,
         quiz: [
             {
                 question: 'What colour is sky?',
@@ -49,13 +53,42 @@ class Quiz extends Component {
     }
 
     onAnswerClickHandler = (answerId) => {
-        console.log(`Answer id: ${answerId}`);
-        this.setState((prevState) => {
-            return {
-                activeQuestion: prevState.activeQuestion + 1
+        if (this.state.answerSate) {
+            const key = Object.keys(this.state.answerSate)[0]
+            if (this.state.answerSate[key] === 'success') {
+                return
             }
         }
-        )
+
+        const question = this.state.quiz[this.state.activeQuestion]
+
+        if (question.correctAnswerId === answerId) {
+            this.setState({
+                answerSate: { [answerId]: 'success' }
+            });
+
+            const timeout = window.setTimeout(() => {
+                if (this.isQuizFinished()) {
+                    this.setState({ isFinished: true });
+                } else {
+                    this.setState((prevState) => {
+                        return {
+                            activeQuestion: prevState.activeQuestion + 1,
+                            answerSate: null,
+                        }
+                    }
+                    )
+                }
+
+                clearTimeout(timeout)
+            }, 1000)
+        } else {
+            this.setState({ answerSate: { [answerId]: 'error' } });
+        }
+    }
+
+    isQuizFinished() {
+        return this.state.activeQuestion + 1 === this.state.quiz.length
     }
 
     render() {
@@ -63,13 +96,18 @@ class Quiz extends Component {
             <div className={classes.Quiz}>
                 <div className={classes.Quiz__innerContainer}>
                     <h1 className={classes.Quiz__title}>Answer all questions</h1>
-                    <ActiveQuiz
-                        question={this.state.quiz[this.state.activeQuestion].question}
-                        questionNumber={this.state.activeQuestion + 1}
-                        answers={this.state.quiz[this.state.activeQuestion].answers}
-                        onAnswerClick={this.onAnswerClickHandler}
-                        quizLenght={this.state.quiz.length}
-                    />
+                    {
+                        this.state.isFinished
+                            ? <FinishedQuiz />
+                            : <ActiveQuiz
+                                question={this.state.quiz[this.state.activeQuestion].question}
+                                questionNumber={this.state.activeQuestion + 1}
+                                answers={this.state.quiz[this.state.activeQuestion].answers}
+                                onAnswerClick={this.onAnswerClickHandler}
+                                quizLenght={this.state.quiz.length}
+                                state={this.state.answerSate}
+                            />
+                    }
                 </div>
             </div>
         );

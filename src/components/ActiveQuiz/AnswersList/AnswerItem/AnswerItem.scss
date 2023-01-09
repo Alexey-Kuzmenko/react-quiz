@@ -15,4 +15,12 @@
         background-color: rgba(225, 225, 225, .2);
         transition: background-color 0.3s ease;
     }
+
+    &_success {
+        background: rgba(161, 240, 69, .7);
+    }
+
+    &_error {
+        background: rgba(240, 87, 108, .7);
+    }
 }
