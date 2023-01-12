@@ -8,6 +8,7 @@
 
 #docs
 *.txt
+aboutProject.md
 
 # misc
 .DS_Store

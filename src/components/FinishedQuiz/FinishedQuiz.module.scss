@@ -1,0 +1,40 @@
+.FinishedQuiz {
+    padding: 20px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 5px;
+
+    &__answersList {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    &__answersItem {
+        cursor: default;
+    }
+
+    &__Icon {
+        margin-left: 5px;
+
+        &_success {
+            color: rgba(161, 240, 69, .7);
+        }
+
+        &_error {
+            color: rgba(240, 87, 108, .7);
+        }
+    }
+
+
+    &__constrols {}
+
+    &__button {
+        cursor: pointer;
+    }
+
+}
