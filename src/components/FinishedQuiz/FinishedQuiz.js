@@ -1,29 +1,37 @@
 import React from "react";
-import classes from './FinishedQuiz.module.scss'
+import './FinishedQuiz.scss'
 
-function FinishedQuiz(props) {
+function FinishedQuiz({ results, quiz }) {
+    console.log(results);
     return (
-        <div className={classes.FinishedQuiz}>
+        <div className="FinishedQuiz">
             <h1>Finished</h1>
 
-            <ul className={classes.FinishedQuiz__answersList}>
-                <li className={classes.FinishedQuiz__answersItem}>
-                    <strong>1.</strong>
-                    How are you?
-                    <i className={`fa-solid fa-check ${classes.FinishedQuiz__Icon} ${classes.FinishedQuiz__Icon_success}`}></ i>
-                </li>
+            <ul className="FinishedQuiz__answersList">
 
-                <li className={classes.FinishedQuiz__answersItem}>
-                    <strong>1.</strong>
-                    How are you?
-                    <i className={`fa-solid fa-xmark ${classes.FinishedQuiz__Icon} ${classes.FinishedQuiz__Icon_error}`}></ i>
-                </li>
+                {
+                    quiz.map((question, index) => {
+                        const iconClasses = [
+                            'fa-solid',
+                            results[question.questionId] === 'error' ? 'fa-xmark' : 'fa-check',
+                            'FinishedQuiz__Icon',
+                            `FinishedQuiz__Icon_${results[question.questionId]}`,
+                        ]
+                        return (
+                            <li key={index}>
+                                <strong>{question.id}</strong> &nbsp;
+                                {question.question}
+                                <i className={iconClasses.join(' ')}></ i>
+                            </li>
+                        )
+                    })
+                }
             </ul>
 
             <p>Correct 4 from 5</p>
 
             <div>
-                <button className={classes.FinishedQuiz__button}>Repeat</button>
+                <button className="FinishedQuiz__button">Repeat</button>
             </div>
         </div >
     );
