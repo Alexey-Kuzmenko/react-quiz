@@ -6,9 +6,9 @@ import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
 class Quiz extends Component {
     state = {
         activeQuestion: 0,
-        isFinished: false,
+        // isFinished: false,
         // ! testing
-        // isFinished: true,
+        isFinished: true,
         results: {},
         answerSate: null,
         quiz: [
@@ -66,8 +66,8 @@ class Quiz extends Component {
 
         if (question.correctAnswerId === answerId) {
 
-            if (!results[answerId]) {
-                results[answerId] = 'success'
+            if (!results[question.questionId]) {
+                results[question.questionId] = 'success'
             }
 
             this.setState({
@@ -91,7 +91,7 @@ class Quiz extends Component {
                 clearTimeout(timeout)
             }, 1000)
         } else {
-            results[answerId] = 'error'
+            results[question.questionId] = 'error'
             this.setState({
                 answerSate: { [answerId]: 'error' },
                 results,
@@ -101,6 +101,15 @@ class Quiz extends Component {
 
     isQuizFinished() {
         return this.state.activeQuestion + 1 === this.state.quiz.length
+    }
+
+    retryHandler = (e) => {
+        this.setState({
+            activeQuestion: 0,
+            isFinished: false,
+            results: {},
+            answerSate: null
+        });
     }
 
     render() {
@@ -113,6 +122,7 @@ class Quiz extends Component {
                             ? <FinishedQuiz
                                 results={this.state.results}
                                 quiz={this.state.quiz}
+                                onRetry={this.retryHandler}
                             />
                             : <ActiveQuiz
                                 question={this.state.quiz[this.state.activeQuestion].question}

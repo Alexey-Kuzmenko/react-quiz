@@ -1,8 +1,17 @@
 import React from "react";
 import './FinishedQuiz.scss'
+import Button from "../UI/Button/Button";
 
-function FinishedQuiz({ results, quiz }) {
+
+function FinishedQuiz({ results, quiz, onRetry }) {
     console.log(results);
+    const successCount = Object.keys(results).reduce((acc, key) => {
+        if (results[key] === 'success') {
+            acc++
+        }
+        return acc
+    }, 0)
+
     return (
         <div className="FinishedQuiz">
             <h1>Finished</h1>
@@ -28,10 +37,11 @@ function FinishedQuiz({ results, quiz }) {
                 }
             </ul>
 
-            <p>Correct 4 from 5</p>
+            <p>Correct {successCount} from {quiz.length}</p>
 
             <div>
-                <button className="FinishedQuiz__button">Repeat</button>
+                <Button onRetry={onRetry} type="primary" >Retry</Button>
+                <Button type="success" >Go to answers</Button>
             </div>
         </div >
     );
