@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import classes from './Layout.module.scss'
 import MenuToggle from "../../components/Nav/MenuToggle/MenuToggle";
 import Drawer from "../../components/Nav/Drawer/Drawer";
+import { Outlet } from "react-router-dom";
 
 class Layout extends Component {
     state = {
@@ -25,7 +26,7 @@ class Layout extends Component {
                 <MenuToggle isOpen={this.state.menuIsOpen} onMenuToggleClick={this.onMenuToggleClickHandler} />
 
                 <main>
-                    {this.props.children}
+                    <Outlet />
                 </main>
             </div>
         );

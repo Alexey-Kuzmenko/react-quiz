@@ -1,7 +1,7 @@
 import React from "react";
 import './FinishedQuiz.scss'
 import Button from "../UI/Button/Button";
-
+import { Link } from "react-router-dom";
 
 function FinishedQuiz({ results, quiz, onRetry }) {
     console.log(results);
@@ -41,9 +41,11 @@ function FinishedQuiz({ results, quiz, onRetry }) {
 
             <div>
                 <Button onRetry={onRetry} type="primary" >Retry</Button>
-                <Button type="success" >Go to answers</Button>
+                <Link to="..">
+                    <Button type="success" >Go to quiz list</Button>
+                </Link>
             </div>
-        </div >
+        </div>
     );
 }
 

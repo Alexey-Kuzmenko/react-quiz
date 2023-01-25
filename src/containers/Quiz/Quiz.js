@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import classes from "./Quiz.module.scss"
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
+import WithRouter from "../../hoc/WithRouter/WithRouter";
 
 class Quiz extends Component {
     state = {
         activeQuestion: 0,
-        // isFinished: false,
+        isFinished: false,
         // ! testing
-        isFinished: true,
+        // isFinished: true,
         results: {},
         answerSate: null,
         quiz: [
@@ -112,6 +113,11 @@ class Quiz extends Component {
         });
     }
 
+    // ! testing
+    componentDidMount() {
+        console.log(this.props.params);
+    }
+
     render() {
         return (
             <div className={classes.Quiz}>
@@ -139,4 +145,4 @@ class Quiz extends Component {
     }
 }
 
-export default Quiz;
+export default WithRouter(Quiz);

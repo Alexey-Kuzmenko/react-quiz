@@ -1,20 +1,23 @@
 import React, { Component } from "react";
 import classes from "./Drawer.module.scss"
 import Backdrop from "../../UI/Backdrop/Backdrop";
+import { NavLink } from "react-router-dom";
 
-
-const links = [1, 2, 3, 4]
+// const links = ['.', 'auth', 'quiz-creator', 'quiz/:id',]
+const links = [{ label: 'home', path: '.' }, { label: 'quiz creator', path: 'quiz-creator' }, { label: 'quiz', path: 'quiz/:id' },]
 
 class Drawer extends Component {
     constructor(props) {
         super(props);
     }
 
-    static renderLinks(links) {
-        return links.map((link, index) => {
+    static setActive = ({ isActive }) => isActive ? `${classes.menu__link} ${classes.menu__link_active}` : `${classes.menu__link}`
+
+    renderLinks(links) {
+        return links.map(({ label, path }, index) => {
             return (
                 <li className={classes.menu__listItem} key={index}>
-                    <a href="#" className={classes.menu__link}>Link{link}</a>
+                    <NavLink to={path} className={Drawer.setActive} onClick={this.props.onCloseMenu}>{label.toUpperCase()}</NavLink>
                 </li>
             )
         })
@@ -31,7 +34,7 @@ class Drawer extends Component {
                 <nav className={cls.join(' ')}>
                     <div className={classes.menu}>
                         <ul className={classes.menu__list}>
-                            {Drawer.renderLinks(links)}
+                            {this.renderLinks(links)}
                         </ul>
                     </div>
                 </nav>
