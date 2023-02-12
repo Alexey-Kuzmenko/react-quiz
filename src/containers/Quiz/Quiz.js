@@ -2,11 +2,15 @@ import React, { Component } from "react";
 import classes from "./Quiz.module.scss"
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
+import WithRouter from "../../hoc/WithRouter/WithRouter";
 
 class Quiz extends Component {
     state = {
         activeQuestion: 0,
-        isFinished: true,
+        isFinished: false,
+        // ! testing
+        // isFinished: true,
+        results: {},
         answerSate: null,
         quiz: [
             {
@@ -59,10 +63,17 @@ class Quiz extends Component {
         }
 
         const question = this.state.quiz[this.state.activeQuestion]
+        const results = this.state.results
 
         if (question.correctAnswerId === answerId) {
+
+            if (!results[question.questionId]) {
+                results[question.questionId] = 'success'
+            }
+
             this.setState({
-                answerSate: { [answerId]: 'success' }
+                answerSate: { [answerId]: 'success' },
+                results,
             });
 
             const timeout = window.setTimeout(() => {
@@ -81,12 +92,30 @@ class Quiz extends Component {
                 clearTimeout(timeout)
             }, 1000)
         } else {
-            this.setState({ answerSate: { [answerId]: 'error' } });
+            results[question.questionId] = 'error'
+            this.setState({
+                answerSate: { [answerId]: 'error' },
+                results,
+            });
         }
     }
 
     isQuizFinished() {
         return this.state.activeQuestion + 1 === this.state.quiz.length
+    }
+
+    retryHandler = (e) => {
+        this.setState({
+            activeQuestion: 0,
+            isFinished: false,
+            results: {},
+            answerSate: null
+        });
+    }
+
+    // ! testing
+    componentDidMount() {
+        console.log(this.props.params);
     }
 
     render() {
@@ -96,7 +125,11 @@ class Quiz extends Component {
                     <h1 className={classes.Quiz__title}>Answer all questions</h1>
                     {
                         this.state.isFinished
-                            ? <FinishedQuiz />
+                            ? <FinishedQuiz
+                                results={this.state.results}
+                                quiz={this.state.quiz}
+                                onRetry={this.retryHandler}
+                            />
                             : <ActiveQuiz
                                 question={this.state.quiz[this.state.activeQuestion].question}
                                 questionNumber={this.state.activeQuestion + 1}
@@ -112,4 +145,4 @@ class Quiz extends Component {
     }
 }
 
-export default Quiz;
+export default WithRouter(Quiz);

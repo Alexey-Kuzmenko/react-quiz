@@ -1,0 +1,86 @@
+.Drawer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 80%;
+    max-width: 300px;
+    box-sizing: border-box;
+    padding: 0px 15px;
+
+    background-color: #fff;
+    z-index: 90;
+    transform: translateX(0px);
+    transition: transform .22s ease-in;
+
+    &_close {
+        transform: translateX(-100%);
+    }
+
+    .menu {
+        padding: 30px 0 0 0;
+        height: fit-content;
+
+        &__list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        &__listItem {
+            margin-bottom: 15px;
+            padding: 0px 20px 10px 20px;
+        }
+
+        &__link {
+            position: relative;
+
+            text-decoration: none;
+            color: #363b54;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            transition: opacity .2s;
+
+            &::after,
+            &_active::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 100%;
+                width: 40px;
+                height: 2px;
+                z-index: 100;
+                background-color: #000;
+                border-radius: 3px;
+                margin-top: 2px;
+            }
+
+            &::after {
+                visibility: hidden;
+                opacity: 0;
+                width: 0;
+            }
+
+            &_active {
+                &::after {
+                    visibility: visible;
+                    opacity: 1;
+                    width: 40px;
+                }
+            }
+
+            &:hover {
+                opacity: .7;
+                transition: opacity .3s;
+
+                &::after {
+                    visibility: visible;
+                    opacity: 1;
+                    width: 40px;
+                    transition: all .3s ease-in;
+                }
+            }
+        }
+    }
+}

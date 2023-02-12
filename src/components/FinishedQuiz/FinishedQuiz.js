@@ -1,31 +1,51 @@
 import React from "react";
-import classes from './FinishedQuiz.module.scss'
+import './FinishedQuiz.scss'
+import Button from "../UI/Button/Button";
+import { Link } from "react-router-dom";
 
-function FinishedQuiz(props) {
+function FinishedQuiz({ results, quiz, onRetry }) {
+    console.log(results);
+    const successCount = Object.keys(results).reduce((acc, key) => {
+        if (results[key] === 'success') {
+            acc++
+        }
+        return acc
+    }, 0)
+
     return (
-        <div className={classes.FinishedQuiz}>
+        <div className="FinishedQuiz">
             <h1>Finished</h1>
 
-            <ul className={classes.FinishedQuiz__answersList}>
-                <li className={classes.FinishedQuiz__answersItem}>
-                    <strong>1.</strong>
-                    How are you?
-                    <i className={`fa-solid fa-check ${classes.FinishedQuiz__Icon} ${classes.FinishedQuiz__Icon_success}`}></ i>
-                </li>
+            <ul className="FinishedQuiz__answersList">
 
-                <li className={classes.FinishedQuiz__answersItem}>
-                    <strong>1.</strong>
-                    How are you?
-                    <i className={`fa-solid fa-xmark ${classes.FinishedQuiz__Icon} ${classes.FinishedQuiz__Icon_error}`}></ i>
-                </li>
+                {
+                    quiz.map((question, index) => {
+                        const iconClasses = [
+                            'fa-solid',
+                            results[question.questionId] === 'error' ? 'fa-xmark' : 'fa-check',
+                            'FinishedQuiz__Icon',
+                            `FinishedQuiz__Icon_${results[question.questionId]}`,
+                        ]
+                        return (
+                            <li key={index}>
+                                <strong>{question.id}</strong> &nbsp;
+                                {question.question}
+                                <i className={iconClasses.join(' ')}></ i>
+                            </li>
+                        )
+                    })
+                }
             </ul>
 
-            <p>Correct 4 from 5</p>
+            <p>Correct {successCount} from {quiz.length}</p>
 
             <div>
-                <button className={classes.FinishedQuiz__button}>Repeat</button>
+                <Button onRetry={onRetry} type="primary" >Retry</Button>
+                <Link to="..">
+                    <Button type="success" >Go to quiz list</Button>
+                </Link>
             </div>
-        </div >
+        </div>
     );
 }
 
