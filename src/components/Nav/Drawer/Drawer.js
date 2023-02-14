@@ -1,47 +1,31 @@
 import React, { Component } from "react";
 import classes from "./Drawer.module.scss"
 import Backdrop from "../../UI/Backdrop/Backdrop";
-import { NavLink } from "react-router-dom";
+import NavLinks from "../NavLinks/NavLinks";
 
-// const links = ['.', 'auth', 'quiz-creator', 'quiz/:id',]
+
 const links = [{ label: 'home', path: '.' }, { label: 'quiz creator', path: 'quiz-creator' }, { label: 'quiz', path: 'quiz/:id' },]
 
-class Drawer extends Component {
-    constructor(props) {
-        super(props);
+function Drawer({ isOpen, onCloseMenu }) {
+
+    const cls = [classes.Drawer]
+
+    if (!isOpen) {
+        cls.push(classes.Drawer_close)
     }
 
-    static setActive = ({ isActive }) => isActive ? `${classes.menu__link} ${classes.menu__link_active}` : `${classes.menu__link}`
-
-    renderLinks(links) {
-        return links.map(({ label, path }, index) => {
-            return (
-                <li className={classes.menu__listItem} key={index}>
-                    <NavLink to={path} className={Drawer.setActive} onClick={this.props.onCloseMenu}>{label.toUpperCase()}</NavLink>
-                </li>
-            )
-        })
-    }
-
-    render() {
-        const cls = [classes.Drawer]
-        if (!this.props.isOpen) {
-            cls.push(classes.Drawer_close)
-        }
-
-        return (
-            <React.Fragment>
-                <nav className={cls.join(' ')}>
-                    <div className={classes.menu}>
-                        <ul className={classes.menu__list}>
-                            {this.renderLinks(links)}
-                        </ul>
-                    </div>
-                </nav>
-                {this.props.isOpen ? <Backdrop onClickHandler={this.props.onCloseMenu} /> : null}
-            </React.Fragment>
-        );
-    }
+    return (
+        <React.Fragment>
+            <nav className={cls.join(' ')}>
+                <div className={classes.menu}>
+                    <ul className={classes.menu__list}>
+                        <NavLinks menuItemClass={classes.menu__listItem} onCloseMenu={onCloseMenu} links={links} />
+                    </ul>
+                </div>
+            </nav>
+            {isOpen ? <Backdrop onClickHandler={onCloseMenu} /> : null}
+        </React.Fragment>
+    );
 }
 
 export default Drawer;
