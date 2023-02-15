@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
 
-class QuizCreator extends Component {
-    state = {}
-    render() {
-        return (<h1>QuizCreator</h1>);
-    }
+function QuizCreator() {
+    return (
+        <h1>QuizCreator</h1>
+    );
 }
 
 export default QuizCreator;

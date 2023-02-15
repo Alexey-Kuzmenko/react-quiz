@@ -1,0 +1,30 @@
+.NotFound {
+    min-height: 100vh;
+    padding: 0px 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column nowrap;
+
+    background-color: #20d5e2;
+
+
+    &__title {
+        color: #fff;
+        font-size: 3rem;
+        cursor: default;
+
+        @media (min-width: 1024px) {
+            & {
+                font-size: 4rem;
+            }
+        }
+
+        @media (max-width: 375px) {
+            & {
+                font-size: 2rem;
+            }
+        }
+    }
+}

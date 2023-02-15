@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import classes from './Layout.module.scss'
 import MenuToggle from "../../components/Nav/MenuToggle/MenuToggle";
 import Drawer from "../../components/Nav/Drawer/Drawer";
