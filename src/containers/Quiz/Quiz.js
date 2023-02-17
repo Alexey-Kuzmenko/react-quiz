@@ -3,9 +3,9 @@ import classes from "./Quiz.module.scss"
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
 import quizzes from "../../storage/quizzes"
+import { useParams } from "react-router-dom";
 
-const quizList = quizzes
-console.log(quizzes);
+const quizList = quizzes.quiz
 
 function Quiz() {
     const [activeQuestion, setActiveQuestion] = useState(0);
@@ -13,6 +13,7 @@ function Quiz() {
     const [results, setResults] = useState({});
     const [answerSate, setAnswerSate] = useState(null);
     const [quiz, setQuiz] = useState(quizList);
+    const { id } = useParams()
 
     const onAnswerClickHandler = (answerId) => {
         if (answerSate) {
