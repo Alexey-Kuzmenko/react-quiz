@@ -1,11 +1,8 @@
-import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from "./QuizList.module.scss"
 
-class QuizList extends Component {
-    state = {}
-
-    renderQuizes() {
+function QuizList() {
+    function renderQuizzes() {
         return [1, 2, 3].map((quiz, i) => {
             return (
                 <li className={classes.QuizList__listItem} key={i}>
@@ -16,19 +13,17 @@ class QuizList extends Component {
             )
         })
     }
-
-    render() {
-        return (
-            <div className={classes.QuizList}>
-                <div>
-                    <h1 className={classes.QuizList__title}>List of tests</h1>
-                    <ul className={classes.QuizList__list}>
-                        {this.renderQuizes()}
-                    </ul>
-                </div>
+    return (
+        <div className={classes.QuizList}>
+            <div>
+                <h1 className={classes.QuizList__title}>List of tests</h1>
+                <ul className={classes.QuizList__list}>
+                    {renderQuizzes()}
+                </ul>
             </div>
-        );
-    }
+        </div>
+    );
 }
+
 
 export default QuizList;

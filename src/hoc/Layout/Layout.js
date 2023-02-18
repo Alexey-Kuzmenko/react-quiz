@@ -1,36 +1,32 @@
-import React, { Component } from "react";
+import { useState } from "react";
 import classes from './Layout.module.scss'
 import MenuToggle from "../../components/Nav/MenuToggle/MenuToggle";
 import Drawer from "../../components/Nav/Drawer/Drawer";
 import { Outlet } from "react-router-dom";
 
-class Layout extends Component {
-    state = {
-        menuIsOpen: false
+function Layout() {
+    const [menuIsOpen, setMenuIsOpen] = useState(false);
+
+    const onMenuToggleClickHandler = (e) => {
+        setMenuIsOpen(!menuIsOpen)
     }
 
-    onMenuToggleClickHandler = (e) => {
-        this.setState({ menuIsOpen: !this.state.menuIsOpen });
+    const menuCloseMenuHandler = (e) => {
+        setMenuIsOpen(false)
     }
 
-    menuCloseMenuHandler = (e) => {
-        this.setState({ menuIsOpen: false });
-    }
+    return (
+        <div className={classes.Layout}>
 
-    render() {
-        return (
-            <div className={classes.Layout}>
+            <Drawer isOpen={menuIsOpen} onCloseMenu={menuCloseMenuHandler} />
 
-                <Drawer isOpen={this.state.menuIsOpen} onCloseMenu={this.menuCloseMenuHandler} />
+            <MenuToggle isOpen={menuIsOpen} onMenuToggleClick={onMenuToggleClickHandler} />
 
-                <MenuToggle isOpen={this.state.menuIsOpen} onMenuToggleClick={this.onMenuToggleClickHandler} />
-
-                <main>
-                    <Outlet />
-                </main>
-            </div>
-        );
-    }
+            <main>
+                <Outlet />
+            </main>
+        </div>
+    );
 }
 
 export default Layout;
