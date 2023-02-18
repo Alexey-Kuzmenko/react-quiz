@@ -14,7 +14,7 @@ function Drawer({ isOpen, onCloseMenu }) {
     }
 
     return (
-        <React.Fragment>
+        <>
             <nav className={cls.join(' ')}>
                 <div className={classes.menu}>
                     <ul className={classes.menu__list}>
@@ -23,7 +23,7 @@ function Drawer({ isOpen, onCloseMenu }) {
                 </div>
             </nav>
             {isOpen ? <Backdrop onClickHandler={onCloseMenu} /> : null}
-        </React.Fragment>
+        </>
     );
 }
 
