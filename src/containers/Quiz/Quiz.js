@@ -24,8 +24,6 @@ function Quiz() {
         }
 
         const question = quiz[activeQuestion]
-        // ? unnecessary variable
-        // const results = results
 
         if (question.correctAnswerId === answerId) {
 
