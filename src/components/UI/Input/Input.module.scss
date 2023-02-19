@@ -1,0 +1,44 @@
+.Input {
+
+    &__container {
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    &__label {
+        display: block;
+        padding: 0;
+        margin-bottom: 10px;
+    }
+
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 0 10px 5px;
+    outline: none;
+    border: none;
+    border-bottom: 3px solid #59bfef;
+    margin-bottom: 10px;
+
+    transition: background-color .3s ease;
+    background-color: rgba($color: #59bfef, $alpha: .0);
+
+    &:focus {
+        transition: background-color .3s ease-in;
+        background-color: rgba($color: #59bfef, $alpha: .3);
+    }
+
+    &_invalid {
+        background-color: rgba($color: #f01f30, $alpha: .3);
+        border-color: #f01f30
+    }
+
+
+    &__errorMessage {
+        display: block;
+        color: #f01f30;
+        font-weight: bold;
+        font-size: 12px;
+        margin-bottom: 3px;
+    }
+
+}

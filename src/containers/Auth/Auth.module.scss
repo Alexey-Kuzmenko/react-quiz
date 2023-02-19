@@ -27,21 +27,6 @@
         border-radius: 5px;
     }
 
-    &__formInput {
-        outline: none;
-        border: none;
-        border-bottom: 3px solid #59bfef;
-        padding: 10px;
-
-        transition: background-color .3s ease;
-        background-color: rgba($color: #59bfef, $alpha: .0);
-
-        &:focus {
-            transition: background-color .3s ease-in;
-            background-color: rgba($color: #59bfef, $alpha: .3);
-        }
-    }
-
     &__formControls {
         display: flex;
         flex-wrap: wrap;
