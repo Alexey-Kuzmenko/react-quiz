@@ -40,6 +40,7 @@ function Auth() {
             }
         }
     );
+    const [isFromValid, setIsFromValid] = useState(false);
 
     const singInHandler = ({ target }) => {
         console.log(target);
@@ -84,6 +85,15 @@ function Auth() {
         control.validation.valid = validateInputValue(target.value, control.validation.rules)
 
         formControlsCopy[controlsName] = control
+
+        let isFromValid = true
+
+        Object.values(formControlsCopy).forEach(inputControls => {
+            const { validation: { valid } } = inputControls
+            isFromValid = valid && isFromValid
+        })
+
+        setIsFromValid(isFromValid)
         setFormControls(formControlsCopy)
     }
 
@@ -109,8 +119,8 @@ function Auth() {
                 {renderInputs(formControls)}
 
                 <div className={classes.Auth__formControls}>
-                    <Button type="success" onClick={singInHandler}>Sign in</Button>
-                    <Button type="primary" onClick={registerHandler}>Create account</Button>
+                    <Button type="success" onClick={singInHandler} disabled={!isFromValid}>Sign in</Button>
+                    <Button type="primary" onClick={registerHandler} disabled={!isFromValid}>Create account</Button>
                 </div>
 
             </form>

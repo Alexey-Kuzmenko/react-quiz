@@ -11,7 +11,9 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* home page */}
-        <Route index element={<QuizList />} />
+        {/* <Route index element={<QuizList />} /> */}
+        {/* test solution */}
+        <Route index element={<Auth />} />
         <Route path="auth" element={<Auth />} />
         <Route path="quiz-creator" element={<QuizCreator />} />
         <Route path="quiz/:id" element={<Quiz />} />
