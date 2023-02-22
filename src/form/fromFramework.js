@@ -1,3 +1,5 @@
+import is from "is_js"
+
 class FormControls {
     value = ""
     validation = {
@@ -13,6 +15,10 @@ class FormControls {
         this.label = label
         this.validation.shouldValidate = shouldValidate
         this.validation.rules.required = required
+    }
+
+    setValue(value) {
+        this.value = value
     }
 
     setTouched(touched) {
@@ -32,6 +38,40 @@ class FormControls {
     setErrorMessage(errorMessage) {
         this.validation.errorMessage = errorMessage
     }
+
 }
 
-export default FormControls
+function validateInputValue(inputValue, config) {
+    if (!config) {
+        return true
+    }
+
+    let isValid = true
+
+    if (config.required) {
+        isValid = inputValue.trim() !== "" && isValid
+    }
+
+    if (config.email) {
+        isValid = is.email(inputValue) && isValid
+    }
+
+    if (config.minLength) {
+        isValid = inputValue.trim().length >= config.minLength && isValid
+    }
+
+    return isValid
+}
+
+function validateForm(formControls) {
+    let isFromValid = true
+
+    Object.values(formControls).forEach(inputControls => {
+        const { validation: { valid } } = inputControls
+        isFromValid = valid && isFromValid
+    })
+
+    return isFromValid
+}
+
+export { FormControls, validateInputValue, validateForm }

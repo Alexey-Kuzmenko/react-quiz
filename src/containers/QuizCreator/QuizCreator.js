@@ -2,13 +2,11 @@ import { useState } from "react";
 import classes from "./QuizCreator.module.scss"
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
-import FormControls from "../../form/fromFramework";
+import { FormControls, validateInputValue, validateForm } from "../../form/fromFramework";
 import Select from "../../components/UI/Select/Select";
+import Quiz from "../../quiz/quiz";
 
 // * input controls
-const addQuestionInputControls = new FormControls("text", "enter a question", true, true)
-addQuestionInputControls.setErrorMessage("This field can't be empty")
-
 function createOptionControls(number) {
     const addAnswerInputControls = new FormControls("text", `answer ${number}`, true, true)
     addAnswerInputControls.setErrorMessage("This value is required")
@@ -16,35 +14,59 @@ function createOptionControls(number) {
     return addAnswerInputControls
 }
 
-// TODO: add function or reference which return basic controls (reset controls)
+function createFormControls() {
+    const addQuestionInputControls = new FormControls("text", "enter a question", true, true)
+    addQuestionInputControls.setErrorMessage("This field can't be empty")
+
+    return {
+        question: addQuestionInputControls,
+        option1: createOptionControls(1),
+        option2: createOptionControls(2),
+        option3: createOptionControls(3),
+        option4: createOptionControls(4),
+    }
+}
 
 function QuizCreator() {
     const [quiz, setQuiz] = useState([]);
     const [rightAnswerId, setRightAnswerId] = useState(1);
-    const [formControls, setFormControls] = useState(
-        {
-            question: addQuestionInputControls,
-            option1: createOptionControls(1),
-            option2: createOptionControls(2),
-            option3: createOptionControls(3),
-            option4: createOptionControls(4),
-        }
-    );
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [formControls, setFormControls] = useState(createFormControls());
 
     const onFormSubmitHandler = (e) => {
         e.preventDefault()
     }
 
-    const addQuestionHandler = ({ target }) => {
-        console.log(`You click ${target}`);
+    const addQuestionHandler = (e) => {
+        e.preventDefault()
+        const quizCopy = [...quiz]
+        const index = quizCopy.length + 1
+        const answers = Object.values(formControls).splice(1)
+        const questionItem = new Quiz(formControls.question.value, index, rightAnswerId, answers)
+
+        quizCopy.push(questionItem)
+        setQuiz(quizCopy)
+        setFormControls(createFormControls())
     }
 
-    const createQuizHandler = ({ target }) => {
-        console.log(`You click ${target}`);
+    const createQuizHandler = (e) => {
+        e.preventDefault()
+        console.log(quiz);
+        // TODO: API integration 
     }
 
     const onInputChangeHandler = (value, controlName) => {
-        console.log(value);
+        const formControlsCopy = { ...formControls }
+        const control = formControlsCopy[controlName]
+
+        control.setValue(value)
+        control.setTouched(true)
+        control.setValid(validateInputValue(value, control.validation.rules))
+
+        formControlsCopy[controlName] = control
+
+        setIsFormValid(validateForm(formControlsCopy))
+        setFormControls(formControlsCopy)
     }
 
     const onSelectChangeHandler = ({ target }) => {
@@ -56,17 +78,14 @@ function QuizCreator() {
         return Object.keys(formControls).map((controlName, i) => {
             const { value, type, label, validation } = formControls[controlName]
             return (
-                <>
-                    <Input
-                        key={i}
-                        value={value}
-                        type={type}
-                        label={label}
-                        onChangeHandler={(e) => onInputChangeHandler(e.target.value, controlName)}
-                        validation={validation}
-                    />
-                    {i === 0 ? <hr /> : null}
-                </>
+                <Input
+                    key={i}
+                    value={value}
+                    type={type}
+                    label={label}
+                    onChangeHandler={(e) => onInputChangeHandler(e.target.value, controlName)}
+                    validation={validation}
+                />
             )
         })
     }
@@ -87,8 +106,8 @@ function QuizCreator() {
                     />
 
                     <div className={classes.QuizCreator__formControls}>
-                        <Button type="primary" onClick={addQuestionHandler}>Add question</Button>
-                        <Button type="success" onClick={createQuizHandler}>Create quiz</Button>
+                        <Button type="primary" onClick={addQuestionHandler} disabled={!isFormValid}>Add question</Button>
+                        <Button type="success" onClick={createQuizHandler} disabled={!quiz.length}>Create quiz</Button>
                     </div>
                 </form>
             </div>
