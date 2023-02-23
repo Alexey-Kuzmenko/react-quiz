@@ -2,98 +2,49 @@ import { useState } from "react";
 import Button from "../../components/UI/Button/Button";
 import Input from "../../components/UI/Input/Input";
 import classes from "./Auth.module.scss"
-import is from "../../../node_modules/is_js/is"
+import { FormControls, validateInputValue, validateForm } from "../../form/fromFramework";
+
+function createFromControls() {
+    const emailInputControl = new FormControls("email", "email", true, true, "Invalid email");
+    emailInputControl.setRules({ email: true })
+    const passwordInputControl = new FormControls("password", "password", true, true, "Invalid password");
+    passwordInputControl.setRules({ minLength: 6 })
+
+    return {
+        email: emailInputControl,
+        password: passwordInputControl
+    }
+}
 
 function Auth() {
-    const [formControls, setFormControls] = useState(
-        {
-            email: {
-                value: "",
-                type: "email",
-                label: "email",
-                validation: {
-                    shouldValidate: true,
-                    errorMessage: "Invalid email",
-                    valid: false,
-                    touched: false,
-                    rules: {
-                        required: true,
-                        email: true
-                    }
-
-                }
-            },
-            password: {
-                value: "",
-                type: "password",
-                label: "password",
-                validation: {
-                    shouldValidate: true,
-                    errorMessage: "Invalid password",
-                    valid: false,
-                    touched: false,
-                    rules: {
-                        required: true,
-                        minLength: 6
-                    }
-                }
-            }
-        }
-    );
+    const [formControls, setFormControls] = useState(createFromControls());
     const [isFromValid, setIsFromValid] = useState(false);
 
     const singInHandler = ({ target }) => {
-        console.log(target);
+        console.log(formControls.email.value)
+        console.log(formControls.password.value)
     }
 
     const registerHandler = ({ target }) => {
-        console.log(target);
+        console.log(formControls.email.value)
+        console.log(formControls.password.value)
     }
 
     const onFormSubmitHandler = (e) => {
         e.preventDefault()
     }
 
-    const validateInputValue = (inputValue, config) => {
-        if (!config) {
-            return true
-        }
-
-        let isValid = true
-
-        if (config.required) {
-            isValid = inputValue.trim() !== "" && isValid
-        }
-
-        if (config.email) {
-            isValid = is.email(inputValue) && isValid
-        }
-
-        if (config.minLength) {
-            isValid = inputValue.trim().length >= config.minLength && isValid
-        }
-
-        return isValid
-    }
-
     const onInputChangeHandler = ({ target }, controlsName) => {
         const formControlsCopy = { ...formControls }
-        const control = { ...formControlsCopy[controlsName] }
+        const control = formControlsCopy[controlsName]
 
-        control.value = target.value
-        control.validation.touched = true
-        control.validation.valid = validateInputValue(target.value, control.validation.rules)
+        control.setValue(target.value)
+        control.setTouched(true)
+        control.setValid(validateInputValue(target.value, control.validation.rules))
 
         formControlsCopy[controlsName] = control
 
-        let isFromValid = true
-
-        Object.values(formControlsCopy).forEach(inputControls => {
-            const { validation: { valid } } = inputControls
-            isFromValid = valid && isFromValid
-        })
-
-        setIsFromValid(isFromValid)
+        setIsFromValid(validateForm(formControlsCopy))
         setFormControls(formControlsCopy)
     }
 

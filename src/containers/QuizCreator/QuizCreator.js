@@ -8,15 +8,13 @@ import Quiz from "../../quiz/quiz";
 
 // * input controls
 function createOptionControls(number) {
-    const addAnswerInputControls = new FormControls("text", `answer ${number}`, true, true)
-    addAnswerInputControls.setErrorMessage("This value is required")
+    const addAnswerInputControls = new FormControls("text", `answer ${number}`, true, true, "This value is required")
     addAnswerInputControls.id = number
     return addAnswerInputControls
 }
 
 function createFormControls() {
-    const addQuestionInputControls = new FormControls("text", "enter a question", true, true)
-    addQuestionInputControls.setErrorMessage("This field can't be empty")
+    const addQuestionInputControls = new FormControls("text", "enter a question", true, true, "This field can't be empty")
 
     return {
         question: addQuestionInputControls,

@@ -10,11 +10,12 @@ class FormControls {
             required: false
         }
     }
-    constructor(type, label, shouldValidate, required) {
+    constructor(type, label, shouldValidate, required, errorMessage) {
         this.type = type
         this.label = label
         this.validation.shouldValidate = shouldValidate
         this.validation.rules.required = required
+        this.validation.errorMessage = errorMessage
     }
 
     setValue(value) {
