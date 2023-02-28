@@ -5,6 +5,7 @@ import Button from "../../components/UI/Button/Button";
 import { FormControls, validateInputValue, validateForm } from "../../form/fromFramework";
 import Select from "../../components/UI/Select/Select";
 import Quiz from "../../quiz/quiz";
+import axios from "axios";
 
 // * input controls
 function createOptionControls(number) {
@@ -47,10 +48,17 @@ function QuizCreator() {
         setFormControls(createFormControls())
     }
 
-    const createQuizHandler = (e) => {
+    const createQuizHandler = async (e) => {
         e.preventDefault()
+        // ! debug
         console.log(quiz);
-        // TODO: API integration 
+        try {
+            await axios.post('https://react-quiz-game-ee138-default-rtdb.europe-west1.firebasedatabase.app/quizes.json', quiz)
+            setQuiz([])
+        } catch (error) {
+            console.error(error);
+        }
+
     }
 
     const onInputChangeHandler = (value, controlName) => {
