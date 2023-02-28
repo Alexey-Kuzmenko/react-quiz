@@ -2,7 +2,7 @@ import { useState } from "react";
 import classes from "./Quiz.module.scss"
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
-import quizzes from "../../storage/quizzes"
+import quizzes from "../../store/quizzes"
 import { useParams } from "react-router-dom";
 
 const quizList = quizzes.quiz
