@@ -16,6 +16,8 @@ class Store {
             const data = await response.data
 
             this.quizzesList = this.serializeQuizzesList(data)
+            // ? test solution
+            this.quizzes = data
             return response
         } catch (error) {
             return Promise.reject(error)
