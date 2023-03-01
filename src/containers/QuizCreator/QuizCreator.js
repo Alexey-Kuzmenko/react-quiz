@@ -5,7 +5,7 @@ import Button from "../../components/UI/Button/Button";
 import { FormControls, validateInputValue, validateForm } from "../../form/fromFramework";
 import Select from "../../components/UI/Select/Select";
 import Quiz from "../../quiz/quiz";
-import axios from "axios";
+import store from "../../store/store";
 
 // * input controls
 function createOptionControls(number) {
@@ -53,7 +53,7 @@ function QuizCreator() {
         // ! debug
         console.log(quiz);
         try {
-            await axios.post('https://react-quiz-game-ee138-default-rtdb.europe-west1.firebasedatabase.app/quizes.json', quiz)
+            await store.sendQuizzes(quiz)
             setQuiz([])
         } catch (error) {
             console.error(error);
