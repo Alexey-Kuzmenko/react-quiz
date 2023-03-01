@@ -1,7 +1,6 @@
 import axios from "axios"
 import apiConfig from "../api/config"
 
-
 class Store {
     constructor(apiConfig) {
         this.url = apiConfig.url
@@ -14,10 +13,9 @@ class Store {
         try {
             const response = await axios.get(this.url)
             const data = await response.data
-
             this.quizzesList = this.serializeQuizzesList(data)
-            // ? test solution
             this.quizzes = data
+
             return response
         } catch (error) {
             return Promise.reject(error)
@@ -31,6 +29,19 @@ class Store {
         } catch (error) {
             return Promise.reject(error)
         }
+    }
+
+    async getQuizzes() {
+        try {
+            const response = await axios.get(this.url)
+            const data = await response.data
+            this.quizzes = data
+
+            return response
+        } catch (error) {
+            return Promise.reject
+        }
+
     }
 
     serializeQuizzesList(quizzesList) {

@@ -41,11 +41,12 @@ function QuizCreator() {
         const quizCopy = [...quiz]
         const index = quizCopy.length + 1
         const answers = Object.values(formControls).splice(1)
-        const questionItem = new Quiz(formControls.question.value, index, rightAnswerId, answers)
+        const questionItem = new Quiz(formControls.question.value, rightAnswerId, index, answers)
 
         quizCopy.push(questionItem)
         setQuiz(quizCopy)
         setFormControls(createFormControls())
+        setRightAnswerId(1)
     }
 
     const createQuizHandler = async (e) => {
@@ -105,9 +106,9 @@ function QuizCreator() {
                     {renderInputs()}
 
                     <Select
-                        label={'Label'}
+                        label='Choose correct answer'
                         value={rightAnswerId}
-                        options={[{ value: 1, text: "first val" }, { value: 2, text: "second val" }, { value: 3, text: "last val" }]}
+                        options={[{ value: 1, text: "1" }, { value: 2, text: "2" }, { value: 3, text: "3" }, { value: 4, text: "4" }]}
                         onChangeHandler={onSelectChangeHandler}
                     />
 

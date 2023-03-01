@@ -34,10 +34,12 @@
     &__link {
         text-decoration: none;
         color: #fff;
+        transition: color .3s ease;
 
         &:hover {
             color: #363f54;
-            // transition: ;
+            // ? proposal solution
+            transition: color .3s ease;
         }
     }
 }

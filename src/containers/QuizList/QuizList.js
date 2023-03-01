@@ -20,7 +20,6 @@ function QuizList() {
         })
     }
 
-    // ! testing 
     useEffect(() => {
         store.init().then(res => {
             // ! debug
