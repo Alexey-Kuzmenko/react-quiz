@@ -3,6 +3,11 @@ import Button from "../../components/UI/Button/Button";
 import Input from "../../components/UI/Input/Input";
 import classes from "./Auth.module.scss"
 import { FormControls, validateInputValue, validateForm } from "../../form/fromFramework";
+import axios from "axios";
+import apiConfig from "../../api/config";
+
+// ! debug
+console.log(`${apiConfig.authApi}${apiConfig.apiKey}`);
 
 function createFromControls() {
     const emailInputControl = new FormControls("email", "email", true, true, "Invalid email");
@@ -20,12 +25,35 @@ function Auth() {
     const [formControls, setFormControls] = useState(createFromControls());
     const [isFromValid, setIsFromValid] = useState(false);
 
-    const singInHandler = ({ target }) => {
+    const singInHandler = async ({ target }) => {
+        const authData = {
+            email: formControls.email.value,
+            password: formControls.password.value,
+            returnSecureToken: true
+        }
+        try {
+            const response = await axios.post(`${apiConfig.signInApi}${apiConfig.apiKey}`, authData)
+            console.log(response);
+        } catch (error) {
+            console.error(error)
+        }
         console.log(formControls.email.value)
         console.log(formControls.password.value)
     }
 
-    const registerHandler = ({ target }) => {
+    const registerHandler = async ({ target }) => {
+        const authData = {
+            email: formControls.email.value,
+            password: formControls.password.value,
+            returnSecureToken: true
+        }
+        try {
+            const response = await axios.post(`${apiConfig.signUpApi}${apiConfig.apiKey}`, authData)
+            console.log(response);
+        } catch (error) {
+            console.error(error)
+        }
+        // ! debug
         console.log(formControls.email.value)
         console.log(formControls.password.value)
     }
