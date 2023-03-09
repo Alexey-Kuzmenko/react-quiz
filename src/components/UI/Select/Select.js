@@ -12,7 +12,7 @@ function Select({ label, value, onChangeHandler, options }) {
 
     return (
         <div className={classes.Select}>
-            <label htmlFor={htmlFor} className={classes.Select__label}>{label}</label>
+            <label htmlFor={htmlFor} className={classes.Select__label}>{label.toUpperCase()}</label>
             <select
                 id={htmlFor}
                 value={value}

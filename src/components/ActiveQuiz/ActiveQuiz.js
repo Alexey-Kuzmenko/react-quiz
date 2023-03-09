@@ -11,7 +11,7 @@ function ActiveQuiz(props) {
                     {props.question}
                 </span>
                 <small>
-                    {`${props.questionNumber} from ${props.quizLenght}`}
+                    {`${props.questionNumber} from ${props.quizLength}`}
                 </small>
             </p>
 

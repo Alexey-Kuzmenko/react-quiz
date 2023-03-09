@@ -1,23 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import classes from "./Quiz.module.scss"
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
-import quizzes from "../../storage/quizzes"
-import { useParams } from "react-router-dom";
-
-const quizList = quizzes.quiz
+import { useNavigate, useParams } from "react-router-dom";
+import store from "../../store/store";
+import Loader from "../../components/UI/Loader/Loader";
 
 function Quiz() {
     const [activeQuestion, setActiveQuestion] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
     const [results, setResults] = useState({});
     const [answerSate, setAnswerSate] = useState(null);
-    const [quiz, setQuiz] = useState(quizList);
+    const [quiz, setQuiz] = useState([]);
+    const [loading, setLoading] = useState(true);
     const { id } = useParams()
+    const navigate = useNavigate()
+    // ! debug
+    console.log(id);
 
     const onAnswerClickHandler = (answerId) => {
         if (answerSate) {
-            const key = Object.keys(answerSate)[0]
+            const key = Object.keys(answerSate)
             if (answerSate[key] === 'success') {
                 return
             }
@@ -62,27 +65,50 @@ function Quiz() {
         setAnswerSate(null)
     }
 
+    useEffect(() => {
+        if (!store.quizzes) {
+            store.getQuizzes().then(() => {
+                setQuiz(store.quizzes[id])
+                setLoading(false)
+            }).catch(error => console.error(error))
+        } else {
+            setQuiz(store.quizzes[id])
+            setLoading(false)
+        }
+
+        if (id === ':id' || id === ':id') {
+            navigate("..", { relative: "path", replace: "true" })
+        }
+
+    }, []);
 
     return (
         <div className={classes.Quiz}>
             <div className={classes.Quiz__innerContainer}>
                 <h1 className={classes.Quiz__title}>Answer all questions</h1>
                 {
-                    isFinished
-                        ? <FinishedQuiz
-                            results={results}
-                            quiz={quiz}
-                            onRetry={retryHandler}
-                        />
-                        : <ActiveQuiz
-                            question={quiz[activeQuestion].question}
-                            questionNumber={activeQuestion + 1}
-                            answers={quiz[activeQuestion].answers}
-                            onAnswerClick={onAnswerClickHandler}
-                            quizLength={quiz.length}
-                            state={answerSate}
-                        />
+                    loading
+                        ?
+                        <Loader />
+                        :
+
+                        isFinished
+                            ?
+                            <FinishedQuiz
+                                results={results}
+                                quiz={quiz}
+                                onRetry={retryHandler}
+                            />
+                            : <ActiveQuiz
+                                question={quiz[activeQuestion].question}
+                                questionNumber={activeQuestion + 1}
+                                answers={quiz[activeQuestion].answers}
+                                onAnswerClick={onAnswerClickHandler}
+                                quizLength={quiz.length}
+                                state={answerSate}
+                            />
                 }
+
             </div>
         </div>
 
