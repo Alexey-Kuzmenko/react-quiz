@@ -1,3 +1,5 @@
+@use "../../../scss/scss-utils/variables" as vars;
+
 .Drawer {
     position: fixed;
     left: 0;
@@ -32,5 +34,12 @@
             margin-bottom: 15px;
             padding: 0px 20px 10px 20px;
         }
+
+        @media (max-width: calc(vars.$mobile-s + 5px)) {
+            &__listItem {
+                margin-bottom: 10px;
+            }
+        }
     }
+
 }
