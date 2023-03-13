@@ -1,3 +1,5 @@
+@use "../../../scss/scss-utils/variables" as vars;
+
 .MenuToggle {
     position: fixed;
     top: 40px;
@@ -15,4 +17,11 @@
     &_open {
         left: 320px;
     }
+
+    @media (max-width: vars.$mobile-m) {
+        &_open {
+            left: 300px;
+        }
+    }
+
 }

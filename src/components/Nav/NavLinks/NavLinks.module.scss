@@ -1,9 +1,11 @@
+@use "../../../scss/scss-utils/variables" as vars;
+
 .NavLink {
     position: relative;
 
     text-decoration: none;
-    color: #363b54;
-    font-size: 1.8rem;
+    color: vars.$link-color;
+    font-size: vars.$nav-link-default-size;
     text-transform: uppercase;
     transition: opacity .2s;
 
@@ -46,5 +48,11 @@
             transition: all .3s ease-in;
         }
 
+    }
+
+    @media (max-width: calc(vars.$mobile-s + 5px)) {
+        & {
+            font-size: vars.$nav-link-small-size;
+        }
     }
 }

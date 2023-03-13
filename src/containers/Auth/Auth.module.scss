@@ -1,10 +1,12 @@
+@use "../../scss/scss-utils/variables" as vars;
+
 .Auth {
     display: flex;
     justify-content: center;
-    padding-top: 100px;
+    padding: 100px 0 20px 0;
     flex-grow: 1;
-    width: 100%;
-    background: linear-gradient(270deg, #cef2fa 0%, #59bfef 100%);
+    max-width: 100%;
+    background: vars.$light-blue-gradient;
 
     &__title {
         color: #000;
@@ -21,8 +23,8 @@
         min-height: 310px;
         padding: 5px 10px 5px 10px;
 
-        background-color: #fff;
-        box-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
+        background-color: vars.$form-bg-color;
+        box-shadow: vars.$form-shadow;
         border-radius: 5px;
     }
 
@@ -32,5 +34,17 @@
         justify-content: space-between;
 
         margin-top: 50px;
+    }
+
+    @media (max-width: vars.$mobile-s) {
+        & {
+            padding: 100px 10px 0 10px;
+        }
+
+        &__formControls {
+            :first-child {
+                margin-bottom: 10px;
+            }
+        }
     }
 }

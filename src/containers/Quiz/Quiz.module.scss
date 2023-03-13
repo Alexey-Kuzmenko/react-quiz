@@ -1,17 +1,46 @@
+@use "../../scss/scss-utils/variables" as vars;
+
 .Quiz {
     display: flex;
     justify-content: center;
     padding-top: 100px;
     flex-grow: 1;
     min-width: 100%;
-    background: linear-gradient(90deg, #5041b2 0%, #7969e6 100%);
+    background: vars.$purple-gradient;
 
     &__title {
-        color: #fff;
+        color: vars.$font-color;
+        font-size: vars.$title-default-size;
     }
 
     &__innerContainer {
         max-width: 100%;
         width: 600px;
+    }
+
+    @media (max-width: vars.$tablet-m) {
+        &__title {
+            font-size: vars.$title-small-size;
+        }
+
+        &__innerContainer {
+            padding: 0 10px;
+        }
+    }
+
+    @media (orientation: landscape) {
+        &::before {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            content: '';
+            background: inherit;
+        }
+
+        &__innerContainer {
+            padding-bottom: 20px;
+        }
     }
 }
