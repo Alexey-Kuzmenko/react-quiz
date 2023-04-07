@@ -1,0 +1,29 @@
+// * default breakpoints
+$tablet: 768px;
+$mobile-l: 425px;
+$mobile-m: 375px;
+$mobile-s: 320px;
+$mobile-xs: 280px;
+// ! custom breakpoints
+$tablet-m: 610px;
+
+// * font sizing
+$title-default-size: 2rem;
+$title-small-size: 1.5rem;
+$text-default-size: 1rem;
+$nav-link-default-size: 1.8rem;
+$nav-link-small-size: 1.6rem;
+
+// * font color
+$font-color: #fff;
+$link-color: #363f54;
+
+// * shadows effects
+$form-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
+
+// * containers background
+$purple-gradient: linear-gradient(90deg, #5041b2 0%, #7969e6 100%);
+$pink-gradient: linear-gradient(90deg, #fd8355, 0%, #f0576c 37%, #f79cbd 100%);
+$orange-gradient: linear-gradient(270deg, #f0613c 0%, #f0783c 100%);
+$light-blue-gradient: linear-gradient(270deg, #cef2fa 0%, #59bfef 100%);
+$form-bg-color: #eee;
