@@ -3,13 +3,16 @@ import { Link } from 'react-router-dom';
 import classes from "./QuizList.module.scss"
 import store from '../../store/store';
 import Loader from '../../components/UI/Loader/Loader';
+import { useGetQuizzesQuery } from '../../store/quizApi';
 
 function QuizList() {
-    const [quizzesList, setQuizzesList] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { data = [], isLoading } = useGetQuizzesQuery()
+
+    // ! debug 
+    console.log(data)
 
     function renderQuizzes() {
-        return quizzesList.map(({ id, name }) => {
+        return data.map(({ id, name }) => {
             return (
                 <li className={classes.QuizList__listItem} key={id}>
                     <Link to={`quiz/${id}`} className={classes.QuizList__link}>
@@ -20,24 +23,12 @@ function QuizList() {
         })
     }
 
-    useEffect(() => {
-        store.init().then(res => {
-            // ! debug
-            console.log(res);
-            setLoading(false)
-            if (res.statusText === 'OK') {
-                setQuizzesList(store.quizzesList)
-            }
-        }).catch(error => { throw new Error(error) })
-
-    }, []);
-
     return (
         <div className={classes.QuizList}>
             <div className={classes.QuizList__innerFlexContainer}>
                 <h1 className={classes.QuizList__title}>List of tests</h1>
                 {
-                    loading
+                    isLoading
                         ?
                         <Loader />
                         :
