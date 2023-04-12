@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import classes from "./Quiz.module.scss"
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
 import { Navigate, useParams } from "react-router-dom";
-import store from "../../store/store";
 import Loader from "../../components/UI/Loader/Loader";
 import { useGetQuizQuery } from "../../store/quizApi";
 

@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import classes from "./QuizList.module.scss"
-import store from '../../store/store';
 import Loader from '../../components/UI/Loader/Loader';
-import { useGetQuizzesQuery } from '../../store/quizApi';
+import { useGetQuizzesListQuery } from '../../store/quizApi';
 
 function QuizList() {
-    const { data = [], isLoading } = useGetQuizzesQuery()
+    const { data = [], isLoading } = useGetQuizzesListQuery()
 
     // ! debug 
     console.log(data)
