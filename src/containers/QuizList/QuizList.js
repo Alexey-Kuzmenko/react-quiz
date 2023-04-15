@@ -2,9 +2,19 @@ import { Link } from 'react-router-dom';
 import classes from "./QuizList.module.scss"
 import Loader from '../../components/UI/Loader/Loader';
 import { useGetQuizzesListQuery } from '../../store/quizApi';
+import { useEffect } from 'react';
+// ! testing
+import { autoLogout } from '../../store/logoutSlice';
+import { useDispatch } from 'react-redux';
+
 
 function QuizList() {
     const { data = [], isLoading } = useGetQuizzesListQuery()
+    // ? potential solution
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(autoLogout())
+    }, [])
 
     // ! debug 
     console.log(data)

@@ -62,12 +62,8 @@ function QuizCreator() {
         // ! debug
         console.log(quiz);
         try {
-            await addQuiz(quiz)
+            await addQuiz(quiz).unwrap()
             setQuiz([])
-            // ! testing
-            if (isSuccess) {
-                alert('Quiz successfully added')
-            }
         } catch (error) {
             console.error(error);
         }

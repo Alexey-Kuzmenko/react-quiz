@@ -3,11 +3,10 @@ import Button from "../../components/UI/Button/Button";
 import Input from "../../components/UI/Input/Input";
 import classes from "./Auth.module.scss"
 import { FormControls, validateInputValue, validateForm } from "../../form/fromFramework";
-import axios from "axios";
-import apiConfig from "../../api/config";
-
-// ! debug
-console.log(`${apiConfig.authApi}${apiConfig.apiKey}`);
+import AuthDataCreator from "../../authentication/auth";
+import { useAuthUserMutation } from "../../store/authApi";
+import { useDispatch } from "react-redux";
+import { saveSession } from "../../store/logoutSlice"
 
 function createFromControls() {
     const emailInputControl = new FormControls("email", "email", true, true, "Invalid email");
@@ -24,38 +23,51 @@ function createFromControls() {
 function Auth() {
     const [formControls, setFormControls] = useState(createFromControls());
     const [isFromValid, setIsFromValid] = useState(false);
+    const [authUser] = useAuthUserMutation()
+    const dispatch = useDispatch()
 
-    const singInHandler = async ({ target }) => {
-        const authData = {
-            email: formControls.email.value,
-            password: formControls.password.value,
-            returnSecureToken: true
-        }
+    const singInHandler = async () => {
+        const authData = new AuthDataCreator(formControls.email.value, formControls.password.value)
+        // ! debug 
+        console.log(authData);
+
         try {
-            const response = await axios.post(`${apiConfig.signInApi}${apiConfig.apiKey}`, authData)
-            console.log(response);
+            const response = await authUser({ body: authData, isLogin: true }).unwrap()
+            const payload = await response
+
+            // ! testing
+            dispatch(saveSession({ tokenId: payload.idToken, userId: payload.localId, expiresIn: payload.expiresIn }))
+
+            // ! debug
+            console.log(payload)
+            console.log(formControls.email.value)
+            console.log(formControls.password.value)
+
+            setFormControls(createFromControls())
         } catch (error) {
-            console.error(error)
+            console.error(error);
         }
-        console.log(formControls.email.value)
-        console.log(formControls.password.value)
     }
 
-    const registerHandler = async ({ target }) => {
-        const authData = {
-            email: formControls.email.value,
-            password: formControls.password.value,
-            returnSecureToken: true
-        }
+    const registerHandler = async () => {
+        const authData = new AuthDataCreator(formControls.email.value, formControls.password.value)
+        // ! debug 
+        console.log(authData);
+
         try {
-            const response = await axios.post(`${apiConfig.signUpApi}${apiConfig.apiKey}`, authData)
-            console.log(response);
+            const response = await authUser({ body: authData, isLogin: false }).unwrap()
+            const payload = await response
+            dispatch(saveSession({ tokenId: payload.idToken, userId: payload.localId, expiresIn: payload.expiresIn }))
+            // ! debug
+            console.log(payload)
+            console.log(formControls.email.value)
+            console.log(formControls.password.value)
+
+            setFormControls(createFromControls())
         } catch (error) {
-            console.error(error)
+            console.error(error);
         }
-        // ! debug
-        console.log(formControls.email.value)
-        console.log(formControls.password.value)
+
     }
 
     const onFormSubmitHandler = (e) => {

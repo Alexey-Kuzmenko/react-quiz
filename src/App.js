@@ -5,18 +5,43 @@ import Auth from "./containers/Auth/Auth";
 import QuizCreator from "./containers/QuizCreator/QuizCreator";
 import QuizList from "./containers/QuizList/QuizList";
 import NotFound from "./containers/NotFound/NotFound";
+// ! testing
+import Logout from "./components/Logout/Logout";
+import { useSelector } from "react-redux";
+
 
 function App() {
-  return (
+  const token = useSelector(state => state.logout.token)
+  // ! debug
+  console.log(token);
+
+  let routes = (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<QuizList />} />
-        <Route path="auth" element={<Auth />} />
-        <Route path="quiz-creator" element={<QuizCreator />} />
-        <Route path="quiz/:id" element={<Quiz />} />
+        <Route index element={<Auth />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
+  )
+
+  if (token) {
+    routes = (
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<QuizList />} />
+          <Route path="quiz-creator" element={<QuizCreator />} />
+          <Route path="quiz/:id" element={<Quiz />} />
+          <Route path="logout" element={<Logout />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    )
+  }
+
+  return (
+    <>
+      {routes}
+    </>
   );
 }
 
