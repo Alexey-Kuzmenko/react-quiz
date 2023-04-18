@@ -1,15 +1,16 @@
-import { Link } from 'react-router-dom';
 import classes from "./QuizList.module.scss"
 import Loader from '../../components/UI/Loader/Loader';
-import { useGetQuizzesListQuery } from '../../store/quizApi';
+import { useDeleteQuizzesMutation, useGetQuizzesListQuery } from '../../store/quizApi';
 import { useEffect } from 'react';
 // ! testing
 import { autoLogout } from '../../store/logoutSlice';
 import { useDispatch } from 'react-redux';
-
+import QuizListItem from './QuizListItem/QuizListItem';
 
 function QuizList() {
     const { data = [], isLoading } = useGetQuizzesListQuery()
+    const [deleteQuiz] = useDeleteQuizzesMutation()
+
     // ? potential solution
     const dispatch = useDispatch()
     useEffect(() => {
@@ -19,14 +20,21 @@ function QuizList() {
     // ! debug 
     console.log(data)
 
+    function deleteQuizHandler(id) {
+        // !debug
+        deleteQuiz(id)
+        console.log(`You delete task with id: ${id}`);
+    }
+
     function renderQuizzes() {
         return data.map(({ id, name }) => {
             return (
-                <li className={classes.QuizList__listItem} key={id}>
-                    <Link to={`quiz/${id}`} className={classes.QuizList__link}>
-                        {name}
-                    </Link>
-                </li>
+                <QuizListItem
+                    key={id}
+                    quizId={id}
+                    quizName={name}
+                    onClickHandler={(e) => { deleteQuizHandler(id) }}
+                />
             )
         })
     }

@@ -40,17 +40,15 @@ export const quizApi = createApi({
             }),
             invalidatesTags: [{ type: 'Quiz', id: 'LIST' }]
         }),
-        // TODO: add delete quiz functionality
-        // deleteQuizzes: build.mutation({
-        //     query: (id = "", method) => ({
-        //         url: "/quizzes.json",
-        //         method: "DELETE",
-        //         body: null
-        //     }),
-        //     invalidatesTags: [{ type: 'Quiz', id: 'LIST' }]
-        // })
+        deleteQuizzes: build.mutation({
+            query: (id = "") => ({
+                url: `/quizzes${id && `/${id}`}.json`,
+                method: "DELETE",
+            }),
+            invalidatesTags: [{ type: 'Quiz', id: 'LIST' }]
+        })
     })
 })
 
-export const { useGetQuizzesListQuery, useGetQuizQuery, useAddQuizMutation } = quizApi
+export const { useGetQuizzesListQuery, useGetQuizQuery, useAddQuizMutation, useDeleteQuizzesMutation } = quizApi
 
