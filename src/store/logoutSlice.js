@@ -14,6 +14,32 @@ export const autoLogout = createAsyncThunk(
     }
 )
 
+export const keepSession = createAsyncThunk(
+    "logoutSlice/autoLogout",
+    async function (_, { dispatch, rejectWithValue }) {
+        try {
+            const tokenId = localStorage.getItem("token")
+            const userId = localStorage.getItem("userId")
+
+            if (!tokenId) {
+                dispatch(closeSession())
+            } else {
+                const expirationDate = new Date(localStorage.getItem("expiration"))
+
+                if (expirationDate <= new Date()) {
+                    dispatch(closeSession())
+                } else {
+                    //  TODO: fix bug with expires in value
+                    dispatch(saveSession({ tokenId, userId, expiresIn: 3600 }))
+                    dispatch(autoLogout())
+                }
+            }
+        } catch (error) {
+            return rejectWithValue(error)
+        }
+    }
+)
+
 export const logoutSlice = createSlice({
     name: "logout",
     initialState: {
@@ -22,7 +48,8 @@ export const logoutSlice = createSlice({
     },
     reducers: {
         saveSession: (state, action) => {
-            const expirationDate = new Date(new Date().getTime() + action.payload.expiresIn * 1000)
+            const expirationDate = new Date(new Date().getTime() + action.payload.expiresIn * 1_000)
+
             localStorage.setItem("token", action.payload.tokenId)
             localStorage.setItem("userId", action.payload.userId)
             localStorage.setItem("expiration", expirationDate)
@@ -37,7 +64,7 @@ export const logoutSlice = createSlice({
 
             state.token = null
             state.expiration = null
-        }
+        },
     },
     extraReducers: {
         [autoLogout.pending]: () => {
@@ -47,7 +74,10 @@ export const logoutSlice = createSlice({
             console.log('Logout successfully');
         },
         [autoLogout.rejected]: (action) => {
-            console.error(action.payload);
+            console.error(`Fail to logout, error type: ${action.payload}`);
+        },
+        [keepSession.rejected]: (action) => {
+            console.error(`Fail to keep session, error type: ${action.payload}`);
         },
     }
 })
