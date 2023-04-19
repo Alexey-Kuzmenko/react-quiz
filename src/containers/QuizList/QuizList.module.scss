@@ -1,3 +1,5 @@
+@use "../../scss/scss-utils/variables" as vars;
+
 .QuizList {
     display: flex;
     justify-content: center;
@@ -6,29 +8,44 @@
 
     width: 100%;
     padding-top: 100px;
-    background: linear-gradient(90deg, #fd8355, 0%, #f0576c 37%, #f79cbd 100%);
+    background: vars.$pink-gradient;
+
+    &__innerFlexContainer {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+        justify-content: center;
+        max-width: 100%;
+    }
 
     &__title {
-        color: #fff;
+        font-size: vars.$title-default-size;
+        color: vars.$font-color;
+        text-align: center;
     }
 
     &__list {
         list-style: none;
         margin: 0;
         padding: 0;
+        width: 100%;
+        max-width: auto;
     }
 
-    &__listItem {
-        margin-bottom: 10px;
-    }
+    @media (orientation: landscape) {
+        &::before {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            content: '';
+            background: inherit;
+        }
 
-    &__link {
-        text-decoration: none;
-        color: #fff;
-
-        &:hover {
-            color: #363f54;
-            // transition: ;
+        &__innerFlexContainer {
+            padding-bottom: 20px;
         }
     }
+
 }

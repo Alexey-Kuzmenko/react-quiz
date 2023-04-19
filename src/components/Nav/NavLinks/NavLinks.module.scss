@@ -1,0 +1,58 @@
+@use "../../../scss/scss-utils/variables" as vars;
+
+.NavLink {
+    position: relative;
+
+    text-decoration: none;
+    color: vars.$link-color;
+    font-size: vars.$nav-link-default-size;
+    text-transform: uppercase;
+    transition: opacity .2s;
+
+    &::after,
+    &_active::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 100%;
+        width: 40px;
+        height: 2px;
+        z-index: 100;
+        background-color: #000;
+        border-radius: 3px;
+        margin-top: 2px;
+    }
+
+    &::after {
+        visibility: hidden;
+        opacity: 0;
+        width: 0;
+    }
+
+    &_active {
+        &::after {
+            visibility: visible;
+            opacity: 1;
+            width: 40px;
+        }
+    }
+
+    &:hover {
+        opacity: .7;
+        transition: opacity .3s;
+
+        &::after {
+            visibility: visible;
+            opacity: 1;
+            width: 40px;
+            transition: all .3s ease-in;
+        }
+
+    }
+
+    @media (max-width: calc(vars.$mobile-s + 5px)) {
+        & {
+            font-size: vars.$nav-link-small-size;
+        }
+    }
+}

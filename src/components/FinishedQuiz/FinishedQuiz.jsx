@@ -4,7 +4,7 @@ import Button from "../UI/Button/Button";
 import { Link } from "react-router-dom";
 
 function FinishedQuiz({ results, quiz, onRetry }) {
-    console.log(results);
+
     const successCount = Object.keys(results).reduce((acc, key) => {
         if (results[key] === 'success') {
             acc++
@@ -40,7 +40,7 @@ function FinishedQuiz({ results, quiz, onRetry }) {
             <p>Correct {successCount} from {quiz.length}</p>
 
             <div>
-                <Button onRetry={onRetry} type="primary" >Retry</Button>
+                <Button onClick={onRetry} type="primary" >Retry</Button>
                 <Link to="..">
                     <Button type="success" >Go to quiz list</Button>
                 </Link>

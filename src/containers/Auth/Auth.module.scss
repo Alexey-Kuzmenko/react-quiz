@@ -1,0 +1,50 @@
+@use "../../scss/scss-utils/variables" as vars;
+
+.Auth {
+    display: flex;
+    justify-content: center;
+    padding: 100px 0 20px 0;
+    flex-grow: 1;
+    max-width: 100%;
+    background: vars.$light-blue-gradient;
+
+    &__title {
+        color: #000;
+    }
+
+    &__form {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-around;
+
+        width: 100%;
+        max-width: 320px;
+        height: 100%;
+        min-height: 310px;
+        padding: 5px 10px 5px 10px;
+
+        background-color: vars.$form-bg-color;
+        box-shadow: vars.$form-shadow;
+        border-radius: 5px;
+    }
+
+    &__formControls {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        margin-top: 50px;
+    }
+
+    @media (max-width: vars.$mobile-s) {
+        & {
+            padding: 100px 10px 0 10px;
+        }
+
+        &__formControls {
+            :first-child {
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
