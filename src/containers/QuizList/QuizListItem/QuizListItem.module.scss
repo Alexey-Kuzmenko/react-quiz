@@ -1,0 +1,32 @@
+@use "./../../../scss/scss-utils/variables" as vars;
+
+.QuizListItem {
+    margin-bottom: 10px;
+    display: flex;
+    width: 100%;
+    max-width: 150px;
+    justify-content: center;
+    align-items: baseline;
+    column-gap: 15px;
+
+    &__link {
+        text-decoration: none;
+        color: vars.$font-color;
+        font-size: vars.$title-small-size;
+        transition: color .3s ease;
+    }
+
+    &__icon {
+        font-size: 1.5rem;
+        color: vars.$font-color;
+        cursor: pointer;
+    }
+
+    &__link,
+    &__icon {
+        &:hover {
+            color: vars.$link-color;
+            transition: color .3s ease;
+        }
+    }
+}

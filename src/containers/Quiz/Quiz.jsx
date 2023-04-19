@@ -1,22 +1,27 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import classes from "./Quiz.module.scss"
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
-import { useNavigate, useParams } from "react-router-dom";
-import store from "../../store/store";
+import { Navigate, useParams } from "react-router-dom";
 import Loader from "../../components/UI/Loader/Loader";
+import { useGetQuizQuery } from "../../store/quizApi";
 
 function Quiz() {
     const [activeQuestion, setActiveQuestion] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
     const [results, setResults] = useState({});
     const [answerSate, setAnswerSate] = useState(null);
-    const [quiz, setQuiz] = useState([]);
-    const [loading, setLoading] = useState(true);
     const { id } = useParams()
-    const navigate = useNavigate()
+    const { data = [], isLoading } = useGetQuizQuery(id)
+
     // ! debug
     console.log(id);
+    console.log(data);
+
+    if (id === ":id" || id === null) {
+        console.log("id not found");
+        return <Navigate to={"/"} replace />
+    }
 
     const onAnswerClickHandler = (answerId) => {
         if (answerSate) {
@@ -26,7 +31,7 @@ function Quiz() {
             }
         }
 
-        const question = quiz[activeQuestion]
+        const question = data[activeQuestion]
 
         if (question.correctAnswerId === answerId) {
 
@@ -55,7 +60,7 @@ function Quiz() {
     }
 
     const isQuizFinished = () => {
-        return activeQuestion + 1 === quiz.length
+        return activeQuestion + 1 === data.length
     }
 
     const retryHandler = (e) => {
@@ -65,29 +70,12 @@ function Quiz() {
         setAnswerSate(null)
     }
 
-    useEffect(() => {
-        if (!store.quizzes) {
-            store.getQuizzes().then(() => {
-                setQuiz(store.quizzes[id])
-                setLoading(false)
-            }).catch(error => console.error(error))
-        } else {
-            setQuiz(store.quizzes[id])
-            setLoading(false)
-        }
-
-        if (id === ':id' || id === ':id') {
-            navigate("..", { relative: "path", replace: "true" })
-        }
-
-    }, []);
-
     return (
         <div className={classes.Quiz}>
             <div className={classes.Quiz__innerContainer}>
                 <h1 className={classes.Quiz__title}>Answer all questions</h1>
                 {
-                    loading
+                    isLoading
                         ?
                         <Loader />
                         :
@@ -96,15 +84,15 @@ function Quiz() {
                             ?
                             <FinishedQuiz
                                 results={results}
-                                quiz={quiz}
+                                quiz={data}
                                 onRetry={retryHandler}
                             />
                             : <ActiveQuiz
-                                question={quiz[activeQuestion].question}
+                                question={data[activeQuestion].question}
                                 questionNumber={activeQuestion + 1}
-                                answers={quiz[activeQuestion].answers}
+                                answers={data[activeQuestion].answers}
                                 onAnswerClick={onAnswerClickHandler}
-                                quizLength={quiz.length}
+                                quizLength={data.length}
                                 state={answerSate}
                             />
                 }

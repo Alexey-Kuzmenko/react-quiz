@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import classes from "./QuizCreator.module.scss"
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import { FormControls, validateInputValue, validateForm } from "../../form/fromFramework";
 import Select from "../../components/UI/Select/Select";
 import Quiz from "../../quiz/quiz";
-import store from "../../store/store";
+import { useAddQuizMutation } from "../../store/quizApi";
 
 // * input controls
 function createOptionControls(number) {
@@ -31,6 +31,7 @@ function QuizCreator() {
     const [rightAnswerId, setRightAnswerId] = useState(1);
     const [isFormValid, setIsFormValid] = useState(false);
     const [formControls, setFormControls] = useState(createFormControls());
+    const [addQuiz, { isSuccess }] = useAddQuizMutation(quiz)
 
     const onFormSubmitHandler = (e) => {
         e.preventDefault()
@@ -49,17 +50,23 @@ function QuizCreator() {
         setRightAnswerId(1)
     }
 
+    // ! testing
+    useEffect(() => {
+        if (isSuccess) {
+            alert("You successfully add quiz")
+        }
+    }, [isSuccess])
+
     const createQuizHandler = async (e) => {
         e.preventDefault()
         // ! debug
         console.log(quiz);
         try {
-            await store.sendQuizzes(quiz)
+            await addQuiz(quiz).unwrap()
             setQuiz([])
         } catch (error) {
             console.error(error);
         }
-
     }
 
     const onInputChangeHandler = (value, controlName) => {

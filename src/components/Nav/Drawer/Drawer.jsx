@@ -1,16 +1,25 @@
 import classes from "./Drawer.module.scss"
 import Backdrop from "../../UI/Backdrop/Backdrop";
 import NavLinks from "../NavLinks/NavLinks";
-
-
-const links = [{ label: 'home', path: '.' }, { label: 'quiz creator', path: 'quiz-creator' }, { label: 'quiz', path: 'quiz/:id' },]
+import { useSelector } from "react-redux";
 
 function Drawer({ isOpen, onCloseMenu }) {
+    const token = useSelector(state => state.logout.token)
 
     const cls = [classes.Drawer]
 
     if (!isOpen) {
         cls.push(classes.Drawer_close)
+    }
+
+    const links = []
+
+    if (!token) {
+        links.push({ label: 'login', path: '.' })
+    } else {
+        links.push({ label: 'quiz list', path: '.' })
+        links.push({ label: 'quiz creator', path: 'quiz-creator' })
+        links.push({ label: 'logout', path: 'logout' })
     }
 
     return (

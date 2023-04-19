@@ -28,22 +28,8 @@
         list-style: none;
         margin: 0;
         padding: 0;
-    }
-
-    &__listItem {
-        margin-bottom: 10px;
-    }
-
-    &__link {
-        text-decoration: none;
-        color: vars.$font-color;
-        font-size: vars.$title-small-size;
-        transition: color .3s ease;
-
-        &:hover {
-            color: vars.$link-color;
-            transition: color .3s ease;
-        }
+        width: 100%;
+        max-width: auto;
     }
 
     @media (orientation: landscape) {
