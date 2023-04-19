@@ -2,7 +2,6 @@ import classes from "./QuizList.module.scss"
 import Loader from '../../components/UI/Loader/Loader';
 import { useDeleteQuizzesMutation, useGetQuizzesListQuery } from '../../store/quizApi';
 import { useEffect } from 'react';
-// ! testing
 import { autoLogout } from '../../store/logoutSlice';
 import { useDispatch } from 'react-redux';
 import QuizListItem from './QuizListItem/QuizListItem';
@@ -11,19 +10,13 @@ function QuizList() {
     const { data = [], isLoading } = useGetQuizzesListQuery()
     const [deleteQuiz] = useDeleteQuizzesMutation()
 
-    // ? potential solution
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(autoLogout())
     }, [])
 
-    // ! debug 
-    console.log(data)
-
     function deleteQuizHandler(id) {
-        // !debug
         deleteQuiz(id)
-        console.log(`You delete task with id: ${id}`);
     }
 
     function renderQuizzes() {

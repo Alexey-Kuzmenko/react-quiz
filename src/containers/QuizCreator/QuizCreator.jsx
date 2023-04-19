@@ -50,7 +50,6 @@ function QuizCreator() {
         setRightAnswerId(1)
     }
 
-    // ! testing
     useEffect(() => {
         if (isSuccess) {
             alert("You successfully add quiz")
@@ -59,8 +58,7 @@ function QuizCreator() {
 
     const createQuizHandler = async (e) => {
         e.preventDefault()
-        // ! debug
-        console.log(quiz);
+
         try {
             await addQuiz(quiz).unwrap()
             setQuiz([])

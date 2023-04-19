@@ -28,20 +28,12 @@ function Auth() {
 
     const singInHandler = async () => {
         const authData = new AuthDataCreator(formControls.email.value, formControls.password.value)
-        // ! debug 
-        console.log(authData);
 
         try {
             const response = await authUser({ body: authData, isLogin: true }).unwrap()
             const payload = await response
 
-            // ! testing
             dispatch(saveSession({ tokenId: payload.idToken, userId: payload.localId, expiresIn: payload.expiresIn }))
-
-            // ! debug
-            console.log(payload)
-            console.log(formControls.email.value)
-            console.log(formControls.password.value)
 
             setFormControls(createFromControls())
         } catch (error) {
@@ -51,18 +43,11 @@ function Auth() {
 
     const registerHandler = async () => {
         const authData = new AuthDataCreator(formControls.email.value, formControls.password.value)
-        // ! debug 
-        console.log(authData);
 
         try {
             const response = await authUser({ body: authData, isLogin: false }).unwrap()
             const payload = await response
             dispatch(saveSession({ tokenId: payload.idToken, userId: payload.localId, expiresIn: payload.expiresIn }))
-            // ! debug
-            console.log(payload)
-            console.log(formControls.email.value)
-            console.log(formControls.password.value)
-
             setFormControls(createFromControls())
         } catch (error) {
             console.error(error);

@@ -14,10 +14,6 @@ function Quiz() {
     const { id } = useParams()
     const { data = [], isLoading } = useGetQuizQuery(id)
 
-    // ! debug
-    console.log(id);
-    console.log(data);
-
     if (id === ":id" || id === null) {
         console.log("id not found");
         return <Navigate to={"/"} replace />

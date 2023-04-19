@@ -6,7 +6,6 @@ import QuizCreator from "./containers/QuizCreator/QuizCreator";
 import QuizList from "./containers/QuizList/QuizList";
 import NotFound from "./containers/NotFound/NotFound";
 import Logout from "./components/Logout/Logout";
-// ! testing
 import { useDispatch, useSelector } from "react-redux";
 import { keepSession } from "./store/logoutSlice";
 import { useEffect } from "react";
@@ -15,11 +14,8 @@ import { useEffect } from "react";
 
 function App() {
   const token = useSelector(state => state.logout.token)
-  // ! testing
   const dispatch = useDispatch()
-  // ! debug
-  console.log(token);
-  // ! testing
+
   useEffect(() => {
     dispatch(keepSession())
   }, [])
