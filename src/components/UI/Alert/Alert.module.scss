@@ -1,0 +1,59 @@
+@use "../../../scss/scss-utils/variables" as vars;
+
+.Alert {
+    background-color: vars.$font-color;
+    border-radius: 5px;
+
+    position: absolute;
+    transform: translateY(-500px);
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px 10px;
+    margin: 0 auto;
+    z-index: 10;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 10px;
+    flex-wrap: wrap;
+
+    transition: transform .3s ease-in;
+    -webkit-box-shadow: 1px 14px 26px -4px rgba(0, 0, 0, 0.32);
+    -moz-box-shadow: 1px 14px 26px -4px rgba(0, 0, 0, 0.32);
+    box-shadow: 1px 14px 26px -4px rgba(0, 0, 0, 0.32);
+
+    &_open {
+        transform: translateY(10px);
+        transition: transform .3s ease-in;
+    }
+
+    &__text {
+        font-size: 1rem;
+        text-align: justify;
+        color: #000;
+    }
+
+    &__controls {
+        display: flex;
+        column-gap: 15px;
+        align-items: center;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+
+    @media (max-width: vars.$tablet-m) {
+        & {
+            max-width: 250px;
+            row-gap: 10px;
+            padding: 30px 15px;
+
+            &_open {
+                transform: translateY(70%);
+            }
+        }
+    }
+
+}

@@ -7,6 +7,10 @@ import Select from "../../components/UI/Select/Select";
 import Quiz from "../../quiz/quiz";
 import { useAddQuizMutation } from "../../store/quizApi";
 
+// ! testing
+import Alert from "../../components/UI/Alert/Alert";
+
+
 // * input controls
 function createOptionControls(number) {
     const addAnswerInputControls = new FormControls("text", `answer ${number}`, true, true, "This value is required")
@@ -32,6 +36,7 @@ function QuizCreator() {
     const [isFormValid, setIsFormValid] = useState(false);
     const [formControls, setFormControls] = useState(createFormControls());
     const [addQuiz, { isSuccess }] = useAddQuizMutation(quiz)
+    const [isAlertShown, setIsAlertShown] = useState(false);
 
     const onFormSubmitHandler = (e) => {
         e.preventDefault()
@@ -52,7 +57,7 @@ function QuizCreator() {
 
     useEffect(() => {
         if (isSuccess) {
-            alert("You successfully add quiz")
+            setIsAlertShown(true)
         }
     }, [isSuccess])
 
@@ -103,27 +108,32 @@ function QuizCreator() {
     }
 
     return (
-        <div className={classes.QuizCreator}>
-            <div className={classes.QuizCreator__innerFlexContainer}>
-                <h1 className={classes.QuizCreator__title}>Create quiz</h1>
-                <form className={classes.QuizCreator__form} onSubmit={onFormSubmitHandler}>
+        <>
+            <Alert text="You successfully add quiz" type="confirm" isShown={isAlertShown} onClickHandler={() => { setIsAlertShown(!isAlertShown) }} />
 
-                    {renderInputs()}
+            <div className={classes.QuizCreator}>
+                <div className={classes.QuizCreator__innerFlexContainer}>
+                    <h1 className={classes.QuizCreator__title}>Create quiz</h1>
+                    <form className={classes.QuizCreator__form} onSubmit={onFormSubmitHandler}>
 
-                    <Select
-                        label='Choose correct answer'
-                        value={rightAnswerId}
-                        options={[{ value: 1, text: "1" }, { value: 2, text: "2" }, { value: 3, text: "3" }, { value: 4, text: "4" }]}
-                        onChangeHandler={onSelectChangeHandler}
-                    />
+                        {renderInputs()}
 
-                    <div className={classes.QuizCreator__formControls}>
-                        <Button type="primary" onClick={addQuestionHandler} disabled={!isFormValid}>Add question</Button>
-                        <Button type="success" onClick={createQuizHandler} disabled={!quiz.length}>Create quiz</Button>
-                    </div>
-                </form>
+                        <Select
+                            label='Choose correct answer'
+                            value={rightAnswerId}
+                            options={[{ value: 1, text: "1" }, { value: 2, text: "2" }, { value: 3, text: "3" }, { value: 4, text: "4" }]}
+                            onChangeHandler={onSelectChangeHandler}
+                        />
+
+                        <div className={classes.QuizCreator__formControls}>
+                            <Button type="primary" onClick={addQuestionHandler} disabled={!isFormValid}>Add question</Button>
+                            <Button type="success" onClick={createQuizHandler} disabled={!quiz.length}>Create quiz</Button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
+        </>
+
     );
 }
 
