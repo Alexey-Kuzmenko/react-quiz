@@ -10,7 +10,7 @@ import Alert from "../../components/UI/Alert/Alert";
 function QuizList() {
     const { data = [], isLoading } = useGetQuizzesListQuery()
     const [deleteQuiz] = useDeleteQuizzesMutation()
-    const [isAlertShown, setIsAlertShown] = useState(true);
+    const [isAlertShown, setIsAlertShown] = useState(false);
     const [quizId, setQuizId] = useState(null);
 
     const dispatch = useDispatch()
@@ -34,16 +34,20 @@ function QuizList() {
     }
 
     function renderQuizzes() {
-        return data.map(({ id, name }) => {
-            return (
-                <QuizListItem
-                    key={id}
-                    quizId={id}
-                    quizName={name}
-                    onClickHandler={(e) => { deleteQuizHandler(id) }}
-                />
-            )
-        })
+        if (!data.length) {
+            return <h1 className={`${classes.QuizList__title} ${classes.QuizList__title_small}`}>Your quiz list is empty</h1>
+        } else {
+            return data.map(({ id, name }) => {
+                return (
+                    <QuizListItem
+                        key={id}
+                        quizId={id}
+                        quizName={name}
+                        onClickHandler={(e) => { deleteQuizHandler(id) }}
+                    />
+                )
+            })
+        }
     }
 
     return (

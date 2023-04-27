@@ -7,6 +7,10 @@ function Alert({ text, type = "default", isShown = false, onClickHandler }) {
         cls.push(classes.Alert_open)
     }
 
+    if (type === "default") {
+        cls.push(classes.Alert_default)
+    }
+
     const confirmAlert = (
         <i className="fa-regular fa-circle-check"></i>
     )

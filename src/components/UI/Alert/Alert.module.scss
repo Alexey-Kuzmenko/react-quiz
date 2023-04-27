@@ -53,6 +53,10 @@
             &_open {
                 transform: translateY(70%);
             }
+
+            &_default {
+                justify-content: flex-start;
+            }
         }
     }
 
