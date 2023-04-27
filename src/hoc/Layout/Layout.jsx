@@ -25,7 +25,7 @@ function Layout() {
 
             <MenuToggle isOpen={menuIsOpen} onMenuToggleClick={onMenuToggleClickHandler} />
 
-            <main>
+            <main style={{ position: "relative" }}>
                 <Outlet />
             </main>
         </div>
