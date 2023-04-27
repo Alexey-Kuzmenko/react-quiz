@@ -22,6 +22,10 @@
         font-size: vars.$title-default-size;
         color: vars.$font-color;
         text-align: center;
+
+        &_small {
+            font-size: vars.$title-small-size;
+        }
     }
 
     &__list {
