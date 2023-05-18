@@ -2,7 +2,7 @@
 
 ## About
 
-This project is for a front-end developer portfolio. The general target of this project is to demonstrate my skills and knowledge of React, SCSS, JS and Redux. In this app, you can create custom quizzes or play already-created quizzes.
+I created this project as part of my front-end developer portfolio. The general target of this project is to demonstrate my skills and knowledge of React, SCSS, JS and Redux. In this app, you can create custom quizzes or play already-created quizzes.
 
 <a href="https://quiz-game-n2q7.onrender.com">**You can find my project here**</a>
 
